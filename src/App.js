@@ -38,7 +38,12 @@ function drawChart(data) {
 
   let g = svg.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top +')');
+
   y.domain([0, d3.max(data, (d) => (d[1]))]);
+
+  let infoBox = d3.select('.chart').append('div')
+                  .attr('class', 'tooltip')
+                  .style('opacity', 1);
 
   g.append('g')
         .attr('class', 'axis axis--x')
@@ -62,7 +67,20 @@ function drawChart(data) {
         .attr('x', (d) => xBars(d[0]))
         .attr('y', (d) => y(d[1]))
         .attr('width', 5)
-        .attr('height', (d) => height - y(d[1]));
+        .attr('height', (d) => height - y(d[1]))
+        .on('mouseover', (d) => {
+           infoBox.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+          infoBox.html((d) + "<br/>")	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })
+        .on("mouseout", function(d) {		
+            infoBox.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+        });
   
 }
 
