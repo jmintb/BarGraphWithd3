@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import $ from "jquery";
 const d3 = require("d3");
+
 const convertToArray = ((accumulator, currentValue, index) => (accumulator.push(currentValue)));
 const extractYear = ((item => item[0].slice(0, 4)));
 const filterYears = ((item, position, array) => (
@@ -10,6 +11,7 @@ const filterYears = ((item, position, array) => (
                 || item[item.length-1] === '5') 
                 && position === array.indexOf(item));
 
+const months = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 const dataUrl = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json";
 let xAxisTicks = [];
@@ -72,7 +74,9 @@ function drawChart(data) {
            infoBox.transition()		
                 .duration(200)		
                 .style("opacity", .9);		
-          infoBox.html((d) + "<br/>")	
+          let date = new Date(d[0]);
+          infoBox.html('<span class="dollar-style">' + '$' + d[1] + '</span>' + "<br/>" 
+          + 	'<span class="year-style">' + date.getFullYear() + ' ' + months[date.getMonth()] + '</span>')
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
             })
