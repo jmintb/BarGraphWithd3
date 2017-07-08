@@ -25,17 +25,15 @@ function drawChart(data) {
 
   dates = data.map((item) => new Date(item[0]));
 
-  console.log(dates);
-
   const svg = d3.select('svg'),
-                margin = {top: 20, right: 20, bottom: 30, left: 40},
+                margin = {top: 20, right: 20, bottom: 30, left: 80},
                 width = + svg.attr('width') - margin.left - margin.right,
                 height = +svg.attr('height') - margin.top - margin.bottom;
 
   let xBars = d3.scaleBand().rangeRound([0, width]).padding(0.1);
       xBars.domain(data.map(item => item[0]));
 
-  let x = d3.scaleBand().domain(xAxisTicks).rangeRound([0,  width]).padding(1),
+  let x = d3.scaleBand().rangeRound([0,  width]).padding(-10).domain(xAxisTicks.map((item => item))),
       y = d3.scaleLinear().rangeRound([height, 0]);
 
   let g = svg.append('g')
@@ -46,15 +44,15 @@ function drawChart(data) {
   let infoBox = d3.select('.chart').append('div')
                   .attr('class', 'tooltip')
                   .style('opacity', 1);
-
+                  
   g.append('g')
         .attr('class', 'axis axis--x')
         .attr('transform', 'translate(9,' + height +')')
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x).ticks(10));
 
   g.append('g')
         .attr('class', 'axis axis--y')
-        .call(d3.axisLeft(y).ticks(10, '%'))
+        .call(d3.axisLeft(y).ticks(10))
       .append('text')
         .attr('transform', 'rotate(-90)')
         .attr('y', 6)
@@ -104,11 +102,6 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
-    console.log('data ' + data);
-    
-  }
-
   render() {
     return (
       <div className="chart"></div>
@@ -116,5 +109,4 @@ class App extends Component {
   }
 }
   
-
 export default App;
