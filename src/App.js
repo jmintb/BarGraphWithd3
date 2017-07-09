@@ -60,6 +60,19 @@ function drawChart(data) {
         .attr('text-anchor', 'end')
         .text('Frequency')
 
+  g.append('text')
+      .attr('x', width)
+      .attr('y', height+30)
+      .attr('text-anchor', 'end')
+      .text('Years')
+
+  g.append('text')
+      .attr('y', 10)
+      .attr('dy', '0.75em')
+      .attr('text-anchor', 'end')
+      .attr('transform', 'rotate(-90)')
+      .text('GDP in billions of dollars.')
+
     g.selectAll('.bar')
       .data(data)
       .enter().append('rect')
@@ -73,7 +86,7 @@ function drawChart(data) {
                 .duration(200)		
                 .style("opacity", .9);		
           let date = new Date(d[0]);
-          infoBox.html('<span class="dollar-style">' + '$' + d[1] + '</span>' + "<br/>" 
+          infoBox.html('<span class="dollar-style">' + '$' + d[1] +  ' Billion' + '</span>' + "<br/>" 
           + 	'<span class="year-style">' + date.getFullYear() + ' ' + months[date.getMonth()] + '</span>')
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
